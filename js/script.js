@@ -1,12 +1,15 @@
-// VARIABLES AND INIT
+// Elements selectors
 const bodyTicTacToe = document.querySelectorAll('.square');
 const clearBtn = document.querySelector('#clearButton');
 const winnerBanner = document.querySelector("#winner");
 
-let redTurn = true;
+// Data structures to define a winning combination
 const winningCombinations = ['123','456','789','147','258','369','159','357'];
 let playerRedGame = ['000','000','000'];
 let playerBlueGame = ['000','000','000'];
+
+// Variables for game control
+let redTurn = true;
 let counter = 0;
 let haveAWinner = false;
 
@@ -15,6 +18,8 @@ let haveAWinner = false;
 function modelingGame(currentSelection, colorPlayer) {
     myString = '';
     let currentRow = '';
+
+    // Getting array element based on the row in which the square is located
     if (currentSelection >= 1 && currentSelection <= 3) {
         delta = 0;
         if (colorPlayer === 'Red') {
@@ -38,34 +43,37 @@ function modelingGame(currentSelection, colorPlayer) {
         }  
     }    
 
-        for (let i = 0; i < 3; i++) {
-            if ((i + delta) === (currentSelection - 1)) {
-                myString += currentSelection;
-            } else {
-                myString += currentRow[i];
-            }    
+    // Creating the row string based on current square position 1..9
+    for (let i = 0; i < 3; i++) {
+        if ((i + delta) === (currentSelection - 1)) {
+            myString += currentSelection;
+        } else {
+            myString += currentRow[i];
+        }    
+    }
+
+    // Assigning the updated row status to the proper array position
+    if (delta === 0) {
+        if (colorPlayer === 'Red') {
+            playerRedGame[0] = myString;
+        } else {
+            playerBlueGame[0] = myString;
         }
-        if (delta === 0) {
-            if (colorPlayer === 'Red') {
-                playerRedGame[0] = myString;
-            } else {
-                playerBlueGame[0] = myString;
-            }
+    }
+    if (delta === 3) {
+        if (colorPlayer === 'Red') {
+            playerRedGame[1] = myString;
+        } else {
+            playerBlueGame[1] = myString;
         }
-        if (delta === 3) {
-            if (colorPlayer === 'Red') {
-                playerRedGame[1] = myString;
-            } else {
-                playerBlueGame[1] = myString;
-            }
-        }
-        if (delta === 6) {
-            if (colorPlayer === 'Red') {
-                playerRedGame[2] = myString;
-            } else {
-                playerBlueGame[2] = myString;
-            }    
-        }
+    }
+    if (delta === 6) {
+        if (colorPlayer === 'Red') {
+            playerRedGame[2] = myString;
+        } else {
+            playerBlueGame[2] = myString;
+        }    
+    }
 }
 
 //
@@ -101,7 +109,7 @@ function evaluatingGame(player) {
             }
             for (let j = 0; j < winningCombinations.length; j++) {
                  if (gameCombination === winningCombinations[j]) {
-                    winnerBanner.innerHTML = `PLAYER ${player} WINS`;
+                    winnerBanner.innerHTML = `PLAYER ${player.toUpperCase()} WINS`;
                     haveAWinner = true;    
                 }
             }    
@@ -118,7 +126,7 @@ function evaluatingGame(player) {
             }
             for (let j = 0; j < winningCombinations.length; j++) {
                 if (gameCombination === winningCombinations[j]) {
-                    winnerBanner.innerHTML = `PLAYER ${player} WINS`;
+                    winnerBanner.innerHTML = `PLAYER ${player.toUpperCase()} WINS`;
                    haveAWinner = true;    
                }
            }               
@@ -134,7 +142,7 @@ function evaluatingGame(player) {
             }
             for (let j = 0; j < winningCombinations.length; j++) {
                 if (gameCombination === winningCombinations[j]) {
-                    winnerBanner.innerHTML = `PLAYER ${player} WINS`;
+                    winnerBanner.innerHTML = `PLAYER ${player.toUpperCase()} WINS`;
                    haveAWinner = true;    
                }
            }               

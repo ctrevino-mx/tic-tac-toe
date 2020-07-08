@@ -4,29 +4,48 @@ body {
     height: 500px;
     display: grid;
     grid-template-rows: 100px 100px 100px 100px 100px;
-    grid-template-columns: 500px 500px 500px;
+    grid-template-columns: 420px 420px 420px;
     grid-row-gap: 8px;
 }
 
 #line-1 {
     grid-row-start: 2;
     grid-column-start: 2;
+    justify-self: center;
 }
 
 #line-2 {
     grid-row-start: 3;
     grid-column-start: 2;
+    justify-self: center;
 }
 
 #line-3 {
     grid-row-start: 4;
     grid-column-start: 2;
+    justify-self: center;
+}
+
+#controls {
+    grid-row-start: 5;
+    grid-column-start: 2;
+    align-self: center;
+    justify-self: center;
 }
 
 #clearButton {
-    grid-row-start: 4;
-    grid-column-start: 2;
-}
+    width: 150px;
+    height: 30px;
+    margin-top: 5px;
+    text-align: center;
+} 
+
+#playerTurn {
+    width: 150px;
+    height: 30px;
+    margin-top: 5px;
+    text-align: center;
+} 
 
 .square {
     width: 100px;
@@ -45,7 +64,7 @@ body {
     background-color: blue;
 }
 
-.squareNeutral {
+/* .squareNeutral {
     background-color: rgb(255, 255, 255);
-}
+} */
 

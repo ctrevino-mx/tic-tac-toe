@@ -1,13 +1,10 @@
-console.log('script linked...');
-
 const bodyTicTacToe = document.querySelectorAll('.square');
 const clearBtn = document.querySelector('#clearButton');
 let redTurn = true;
 
-console.log(clearBtn);
-
 function paint(e) {
-    const mySquare2 = document.querySelector('#square1');
+//    const mySquare2 = document.querySelector('#square1');
+    const myTurn = document.querySelector("#playerTurn");
     const mySquare1 = event.target;
     const classListNames = mySquare1.classList.value;
     const isThisRed = classListNames.indexOf('Red');
@@ -16,11 +13,15 @@ function paint(e) {
     if (isThisRed < 0 && isThisBlue < 0) {
         if (redTurn) {
             mySquare1.classList.add('squareRed');
+            myTurn.innerHTML = '>> Blue player turn <<'
             redTurn = false;    
         } else {
             mySquare1.classList.add('squareBlue');
             redTurn = true;
+            myTurn.innerHTML = '>> Red player turn <<'
         }
+    } else {
+        alert('Option already selected! Try a new one');
     } 
 }
 
@@ -32,6 +33,7 @@ function clearGame() {
     let myClassList = '';
     let isThisRed = '';
     let isThisBlue = '';
+    const myTurn = document.querySelector("#playerTurn");
    
     bodyTicTacToe.forEach(mySquare => {
         myclassList = mySquare.classList.value;
@@ -45,6 +47,8 @@ function clearGame() {
             mySquare.classList.remove('squareBlue');
         }    
     });
+    myTurn.innerHTML = '>> Red player turn <<';
+    redTurn = true;
 };
 
 clearBtn.addEventListener('click',clearGame);

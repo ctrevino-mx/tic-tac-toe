@@ -1,14 +1,20 @@
+// VARIABLES AND INIT
 const bodyTicTacToe = document.querySelectorAll('.square');
 const clearBtn = document.querySelector('#clearButton');
+const winnerBanner = document.querySelector("#winner");
+
 let redTurn = true;
 const winningCombinations = ['123','456','789','147','258','369','159','357'];
 let playerRedGame = ['000','000','000'];
 let playerBlueGame = ['000','000','000'];
+let counter = 0;
+let haveAWinner = false;
 
+
+// FUNCTION TO MODEL THE GAME
 function modelingGame(currentSelection, colorPlayer) {
     myString = '';
     let currentRow = '';
-    // console.log(currentSelection);
     if (currentSelection >= 1 && currentSelection <= 3) {
         delta = 0;
         if (colorPlayer === 'Red') {
@@ -31,10 +37,7 @@ function modelingGame(currentSelection, colorPlayer) {
             currentRow = playerBlueGame[2];            
         }  
     }    
-    // console.log('delta', delta);
-    // console.log('current selection', currentSelection);
 
-    if (currentSelection >=(delta + 1) && currentSelection <= (delta + 3)) {
         for (let i = 0; i < 3; i++) {
             if ((i + delta) === (currentSelection - 1)) {
                 myString += currentSelection;
@@ -63,45 +66,85 @@ function modelingGame(currentSelection, colorPlayer) {
                 playerBlueGame[2] = myString;
             }    
         }
- //       console.log(playerRedGame); 
- //       console.log(playerBlueGame);         
-    }
 }
 
+//
+// THIS FUNCTION DETERMINES IF THERE IS A WINNER BECAUSE OF THE LAST MOVE
+//
 function evaluatingGame(player) {
+    let gameCombination = '';
 
-    for (let i = 0; i < playerRedGame.length; i++) {
+// HORIZONTAL ROWS
+    for (let i = 0; i < 3; i++) {
         for (let j = 0; j < winningCombinations.length; j++) {
-            if (playerRedGame[i] === winningCombinations[j]) {
-                console.log('WINNER');    
+            if (player === 'Red') {
+                if (playerRedGame[i] === winningCombinations[j]) {
+                    winnerBanner.innerHTML = 'PLAYER RED WINS';
+                    haveAWinner = true;    
+                }    
+            } else {
+                if (playerBlueGame[i] === winningCombinations[j]) {
+                    winnerBanner.innerHTML = 'PLAYER BLUE WINS';
+                    haveAWinner = true;    
+                }    
             }
         }
     }
 
-    for (let i = 0; i < playerRedGame.length; i++) {
-        let gameCombination = playerRedGame[0][i] + playerRedGame[1][i] + playerRedGame[2][i];
-        for (let j = 0; j < winningCombinations.length; j++) {
-            if (gameCombination === winningCombinations[j]) {
-                console.log('WINNER');    
+ // VERTICAL ROWS   
+    if (!haveAWinner) {
+        for (let i = 0; i < 3; i++) {
+            if (player === 'Red') {
+                gameCombination = playerRedGame[0][i] + playerRedGame[1][i] + playerRedGame[2][i];
+            } else {
+                gameCombination = playerBlueGame[0][i] + playerBlueGame[1][i] + playerBlueGame[2][i];
             }
+            for (let j = 0; j < winningCombinations.length; j++) {
+                 if (gameCombination === winningCombinations[j]) {
+                    winnerBanner.innerHTML = `PLAYER ${player} WINS`;
+                    haveAWinner = true;    
+                }
+            }    
         }    
     }
 
-    let gameCombination = '';
-    for (let i = 0; i < playerRedGame.length; i++) {
-        gameCombination = gameCombination + playerRedGame[i][i];
-    }
-    console.log(gameCombination);
-    gameCombination = '';
-    for (let i = 0; i < playerRedGame.length; i++) {
-        gameCombination = gameCombination + playerRedGame[i][playerRedGame.length - i - 1];
+ // DIAGONAL   
+    if (!haveAWinner) {
+        let gameCombination = '';
+            if (player === 'Red') {
+                gameCombination = playerRedGame[0][0] + playerRedGame[1][1]  + playerRedGame[2][2];
+            } else {
+                gameCombination = playerBlueGame[0][0] + playerBlueGame[1][1]  + playerBlueGame[2][2];
+            }
+            for (let j = 0; j < winningCombinations.length; j++) {
+                if (gameCombination === winningCombinations[j]) {
+                    winnerBanner.innerHTML = `PLAYER ${player} WINS`;
+                   haveAWinner = true;    
+               }
+           }               
     }
 
-           console.log(playerRedGame); 
-        console.log(playerBlueGame);         
-
+    // DIAGONAL INVERSE
+    if (!haveAWinner) {
+        let gameCombination = '';
+            if (player === 'Red') {
+                gameCombination = playerRedGame[0][2] + playerRedGame[1][1]  + playerRedGame[2][0];
+            } else {
+                gameCombination = playerBlueGame[0][2] + playerBlueGame[1][1]  + playerBlueGame[2][0];
+            }
+            for (let j = 0; j < winningCombinations.length; j++) {
+                if (gameCombination === winningCombinations[j]) {
+                    winnerBanner.innerHTML = `PLAYER ${player} WINS`;
+                   haveAWinner = true;    
+               }
+           }               
+    }
+    if (!haveAWinner && counter === 9) {
+        winnerBanner.innerHTML = 'WE HAVE A TIE';
+    }
 }
 
+// FUNCTION TO PAINT THE SQUARES OF RED/BLUE
 function paint(e) {
 //    const mySquare2 = document.querySelector('#square1');
     const myTurn = document.querySelector("#playerTurn");
@@ -111,81 +154,45 @@ function paint(e) {
     const isThisBlue = classListNames.indexOf('Blue');
     let currentPlayer = '';
     let currentSquare = parseInt(mySquare1.innerHTML);
-
+   
     if (redTurn) {
         currentPlayer = 'Red';
     } else {
         currentPlayer = 'Blue';
     }
  
-     if (isThisRed < 0 && isThisBlue < 0) {
-        if (redTurn) {
-            mySquare1.classList.add('squareRed');
-            myTurn.innerHTML = '>> Blue player turn <<'
-            redTurn = false;
-            myString = '';
-            console.log('current square', currentSquare);
-            // Logic for modeling the game
-            modelingGame(currentSquare, 'Red');
-            evaluatingGame('Red');
-            // if (currentSquare >=1 && currentSquare <= 3) {
-            //     let currentRow = playerRedGame[0];
-            //     for (let i = 0; i < currentRow.length; i++) {
-            //         if (i === (currentSquare - 1)) {
-            //             myString += currentSquare;
-            //         } else {
-            //             myString += currentRow[i];
-            //         }    
-            //     }
-            //     console.log(myString);
-            //     playerRedGame[0] = myString;
-            //     console.log(playerRedGame);          
-            // }
-    //        modelingGame(currentSquare, 3);
-            // if (currentSquare >=4 && currentSquare <= 6) {
-            //     let currentRow = playerRedGame[1];
-            //     console.log('Current row',currentRow);
-            //     for (let i = 0; i < 3; i++) {
-            //         if ((i + 3)  === (currentSquare - 1)) {
-            //             myString += currentSquare;
-            //         } else {
-            //             myString += currentRow[i];
-            //         }    
-            //     }
-            //     console.log(myString);
-            //     playerRedGame[1] = myString;
-            //     console.log(playerRedGame);          
-            // }
-            // if (currentSquare >=7 && currentSquare <= 9) {
-            //     let currentRow = playerRedGame[2];
-            //     console.log('Current row',currentRow);
-            //     for (let i = 0; i < 3; i++) {
-            //         if ((i + 6)  === (currentSquare - 1)) {
-            //             myString += currentSquare;
-            //         } else {
-            //             myString += currentRow[i];
-            //         }    
-            //     }
-            //     console.log(myString);
-            //     playerRedGame[2] = myString;
-            //     console.log(playerRedGame);          
-            // }
-            // End of logic
+    if (!haveAWinner) {
+        if (isThisRed < 0 && isThisBlue < 0) {
+            if (redTurn) {
+                mySquare1.classList.add('squareRed');
+                myTurn.innerHTML = 'Blue player turn'
+                redTurn = false;
+                myString = '';
+                counter += 1;
+                modelingGame(currentSquare, 'Red');
+                evaluatingGame('Red');
+            } else {
+                mySquare1.classList.add('squareBlue');
+                myTurn.innerHTML = 'Red player turn'
+                redTurn = true;
+                counter += 1;
+                modelingGame(currentSquare, 'Blue');
+                evaluatingGame('Blue');
+            }
         } else {
-            mySquare1.classList.add('squareBlue');
-            redTurn = true;
-            myTurn.innerHTML = '>> Red player turn <<'
-            modelingGame(currentSquare, 'Blue');
-        }
+            alert('Option already selected! Try a new one');
+        } 
     } else {
-        alert('Option already selected! Try a new one');
-    } 
+        alert('WE HAVE A WINNER! Hit the clear game button')
+    }
 }
 
+// ASSIGNING THE EVENT TO PAINT SQUARES
 bodyTicTacToe.forEach(mySquare => {
     mySquare.addEventListener('click',paint);
 });
 
+// FUNCTION TO CLEAR THE GAME
 function clearGame() {
     let myClassList = '';
     let isThisRed = '';
@@ -204,10 +211,15 @@ function clearGame() {
             mySquare.classList.remove('squareBlue');
         }    
     });
-    myTurn.innerHTML = '>> Red player turn <<';
+    myTurn.innerHTML = 'Red player turn';
+    winnerBanner.innerHTML = '';
     redTurn = true;
     playerRedGame = ['000','000','000'];
     playerBlueGame = ['000','000','000'];
+    counter = 0;
+    haveAWinner = false;
+ //   mySquare.removeEventListener('click',paint);
 };
 
+// ASSIGN THE EVENT LISTENER TO CLEAR THE GAME WITH THE BUTTON
 clearBtn.addEventListener('click',clearGame);

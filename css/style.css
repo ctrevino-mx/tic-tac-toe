@@ -8,6 +8,16 @@ body {
     grid-row-gap: 8px;
 }
 
+#gameTitle {
+    grid-row-start: 1;
+    grid-column-start: 2;
+    justify-self: center;
+    margin: auto;
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
 #line-1 {
     grid-row-start: 2;
     grid-column-start: 2;
@@ -41,10 +51,22 @@ body {
 } 
 
 #playerTurn {
-    width: 150px;
+    width: 180px;
     height: 30px;
     margin-top: 5px;
     text-align: center;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+} 
+
+#winner {
+    width: 200px;
+    height: 30px;
+    margin-top: 5px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;    
+    font-size: 20px;
 } 
 
 .square {
@@ -53,15 +75,18 @@ body {
     background-color: rgb(255, 255, 255);
     display: inline-block;
     border: 2px solid rgba(0, 0, 0, 0.8);
+    color: white;
 
 }
 
 .squareRed {
     background-color: red;
+    color: red;
 }
 
 .squareBlue {
     background-color: blue;
+    color: blue;
 }
 
 /* .squareNeutral {

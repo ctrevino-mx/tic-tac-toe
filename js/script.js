@@ -1,7 +1,10 @@
 console.log('script linked...');
 
 const bodyTicTacToe = document.querySelectorAll('.square');
+const clearBtn = document.querySelector('#clearButton');
 let redTurn = true;
+
+console.log(clearBtn);
 
 function paint(e) {
     const mySquare2 = document.querySelector('#square1');
@@ -23,4 +26,25 @@ function paint(e) {
 
 bodyTicTacToe.forEach(mySquare => {
     mySquare.addEventListener('click',paint);
-})
+});
+
+function clearGame() {
+    let myClassList = '';
+    let isThisRed = '';
+    let isThisBlue = '';
+   
+    bodyTicTacToe.forEach(mySquare => {
+        myclassList = mySquare.classList.value;
+        isThisRed = myclassList.indexOf('Red');
+        isThisBlue = myclassList.indexOf('Blue');
+    
+        if (isThisRed > 0) {
+            mySquare.classList.remove('squareRed');
+        }    
+        if (isThisBlue > 0) {
+            mySquare.classList.remove('squareBlue');
+        }    
+    });
+};
+
+clearBtn.addEventListener('click',clearGame);

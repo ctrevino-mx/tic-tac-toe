@@ -1,3 +1,42 @@
 body {
-    background-color: coral;
+    background-color: rgb(245, 244, 177);
+    width: 500px;
+    height: 500px;
+    display: grid;
+    grid-template-rows: 100px 100px 100px 100px 100px;
+    grid-template-columns: 500px 500px 500px;
+    grid-row-gap: 8px;
+
+}
+
+#line-1 {
+    grid-row-start: 2;
+    grid-column-start: 2;
+}
+
+#line-2 {
+    grid-row-start: 3;
+    grid-column-start: 2;
+}
+
+#line-3 {
+    grid-row-start: 4;
+    grid-column-start: 2;
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    background-color: rgb(255, 255, 255);
+    display: inline-block;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+
+}
+
+.squareRed {
+    background-color: red;
+}
+
+.squareBlue {
+    background-color: blue;
 }
